@@ -4,7 +4,11 @@
   "description": "",
   "main": ".src/index.js",
   "scripts": {
-    "test": "jest --forceExit"
+    "start": "node ./src/index.js",
+    "start:skip": "node ./src/index.js -- --skip-recreate",
+    "watch": "npx nodemon ./src/index.js",
+    "watch:skip": "npx nodemon ./src/index.js -- --skip-recreate",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest --forceExit"
   },
   "author": {
     "name": "Felipe Guajardo",
