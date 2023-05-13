@@ -1,4 +1,4 @@
-const { getPlayers, addPlayer } = require("../src/db/consultas");
+import { getPlayers, addPlayer } from "../db/consultas.js";
 
 const obtenerJugadores = async (req, res) => {
   const { teamID } = req.params;
@@ -13,4 +13,4 @@ const registrarJugador = async (req, res) => {
   res.json({ message: "Jugador agregado con éxito" });
 };
 
-module.exports = { obtenerJugadores, registrarJugador };
+export default { obtenerJugadores, registrarJugador };

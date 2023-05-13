@@ -1,4 +1,4 @@
-const { getTeams, addTeam } = require("../src/db/consultas");
+import { getTeams, addTeam } from "../db/consultas.js";
 
 const obtenerEquipos = async (req, res) => {
   const equipos = await getTeams();
@@ -11,4 +11,4 @@ const agregarEquipo = async (req, res) => {
   res.send({ message: "Equipo agregado con éxito" });
 };
 
-module.exports = { obtenerEquipos, agregarEquipo };
+export default { obtenerEquipos, agregarEquipo };
