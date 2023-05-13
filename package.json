@@ -8,6 +8,7 @@
     "start:skip": "node ./src/index.js -- --skip-recreate",
     "watch": "npx nodemon ./src/index.js",
     "watch:skip": "npx nodemon ./src/index.js -- --skip-recreate",
+    "genSecret": "node ./scripts/genJWTSecret.js",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest --forceExit"
   },
   "author": {
