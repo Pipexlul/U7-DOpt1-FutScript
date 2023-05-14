@@ -163,7 +163,7 @@ const addPlayer = async ({ jugador, teamID }) => {
 const getUserData = async (username) => {
   try {
     const query = pgFormat(
-      "SELECT password FROM users WHERE username = %L;",
+      "SELECT * FROM users WHERE username = %L;",
       username
     );
 

@@ -21,7 +21,11 @@ const { loginUser } = loginRoutes;
 app.post("/login", validators.postLogin, loginUser);
 
 app.get("/equipos", obtenerEquipos);
-app.post("/equipos", agregarEquipo);
+app.post(
+  "/equipos",
+  validators.postEquipos({ checkAdmin: true }),
+  agregarEquipo
+);
 
 app.get("/equipos/:teamID/jugadores", obtenerJugadores);
 app.post("/equipos/:teamID/jugadores", registrarJugador);
