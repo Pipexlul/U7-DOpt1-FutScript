@@ -7,8 +7,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-import { obtenerJugadores, registrarJugador } from "./controllers/jugadores.js";
-import { obtenerEquipos, agregarEquipo } from "./controllers/equipos.js";
+import jugadoresRoutes from "./controllers/jugadores.js";
+const { obtenerJugadores, registrarJugador } = jugadoresRoutes;
+
+import equiposRoutes from "./controllers/equipos.js";
+const { obtenerEquipos, agregarEquipo } = equiposRoutes;
 
 app.get("/equipos", obtenerEquipos);
 app.post("/equipos", agregarEquipo);

@@ -1,6 +1,8 @@
 import getDbQueries from "../db/consultas.js";
 const { getPlayers, addPlayer } = getDbQueries();
 
+import asyncLoader from "../middleware/asyncMiddleware.js";
+
 const obtenerJugadores = async (req, res) => {
   const { teamID } = req.params;
   const jugadores = await getPlayers(teamID);
@@ -14,4 +16,7 @@ const registrarJugador = async (req, res) => {
   res.json({ message: "Jugador agregado con éxito" });
 };
 
-export { obtenerJugadores, registrarJugador };
+export default {
+  obtenerJugadores: asyncLoader(obtenerJugadores),
+  registrarJugador: asyncLoader(registrarJugador),
+};
