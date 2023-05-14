@@ -21,7 +21,7 @@ const dbConfig = {
   database: envConfig.dbname,
 };
 
-const options = { skip: false };
+const options = { skip: false, fullDelete: false };
 const args = process.argv.slice(2);
 
 if (
@@ -31,6 +31,13 @@ if (
   )
 ) {
   options.skip = true;
+}
+if (
+  args.some(
+    (arg) => arg.toLowerCase() === "-f" || arg.toLowerCase() === "--full-delete"
+  )
+) {
+  options.fullDelete = true;
 }
 
 export { envConfig, dbConfig, options };
