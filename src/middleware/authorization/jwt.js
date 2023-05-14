@@ -17,7 +17,7 @@ const validateAuth =
       const { username, admin } = verify(token, envConfig.jwtSecret);
 
       if (checkAdmin && !admin) {
-        res.status(401).json({
+        res.status(403).json({
           error: "No tienes permisos suficientes para utilizar esta ruta",
         });
         return;
