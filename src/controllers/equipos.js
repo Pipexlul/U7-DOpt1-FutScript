@@ -1,4 +1,5 @@
-import { getTeams, addTeam } from "../db/consultas.js";
+import getDBQueries from "../db/consultas.js";
+const { getTeams, addTeam } = getDBQueries();
 
 const obtenerEquipos = async (req, res) => {
   const equipos = await getTeams();
@@ -11,4 +12,4 @@ const agregarEquipo = async (req, res) => {
   res.send({ message: "Equipo agregado con éxito" });
 };
 
-export default { obtenerEquipos, agregarEquipo };
+export { obtenerEquipos, agregarEquipo };
