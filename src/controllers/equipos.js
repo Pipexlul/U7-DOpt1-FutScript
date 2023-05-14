@@ -20,8 +20,17 @@ const obtenerEquipos = async (req, res) => {
 
 const agregarEquipo = async (req, res) => {
   const equipo = req.body;
-  await addTeam(equipo);
-  res.send({ message: "Equipo agregado con éxito" });
+
+  try {
+    await addTeam(equipo);
+    res.status(201).json({ message: "Equipo agregado con éxito" });
+  } catch (err) {
+    if (err && err.code === "23505") {
+      res.status(409).json({ error: "El equipo ya existe" });
+      return;
+    }
+    res.status(500).json({ error: "Error al intentar añadir equipo" });
+  }
 };
 
 export default {

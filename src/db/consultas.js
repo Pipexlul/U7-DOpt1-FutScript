@@ -67,7 +67,7 @@ const initDatabase = async () => {
     ];
 
     const newTableQueries = [
-      "CREATE TABLE IF NOT EXISTS equipos (id SERIAL PRIMARY KEY, name VARCHAR(250) NOT NULL);",
+      "CREATE TABLE IF NOT EXISTS equipos (id SERIAL PRIMARY KEY, name VARCHAR(250) NOT NULL UNIQUE);",
       "CREATE TABLE IF NOT EXISTS posiciones (id SERIAL PRIMARY KEY, name VARCHAR(250) NOT NULL);",
       "CREATE TABLE IF NOT EXISTS jugadores (id SERIAL PRIMARY KEY, id_equipo INT REFERENCES equipos(id), name VARCHAR(250), position INT REFERENCES posiciones(id));",
       "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username VARCHAR(60) UNIQUE NOT NULL, password VARCHAR(72) NOT NULL, admin BOOLEAN DEFAULT false);",
@@ -153,7 +153,20 @@ const getPlayers = async (teamID) => {
 };
 
 const addTeam = async (equipo) => {
-  //...
+  try {
+    const { name } = equipo;
+
+    const query = pgFormat(
+      "INSERT INTO %s (name) VALUES (%L);",
+      tabNames.equipos,
+      name
+    );
+
+    await pool.query(query);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 };
 
 const addPlayer = async ({ jugador, teamID }) => {
