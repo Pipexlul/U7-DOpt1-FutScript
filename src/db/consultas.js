@@ -24,7 +24,33 @@ const initDatabase = async () => {
     password: "1234",
   };
 
+  const testAccounts = [
+    {
+      username: "admin",
+      password: "1234",
+      admin: true,
+    },
+    {
+      username: "user",
+      password: "abcd",
+      admin: false,
+    },
+  ];
+
   try {
+    const accountCreationQueries = [];
+
+    for (const account of testAccounts) {
+      accountCreationQueries.push(
+        pgFormat(
+          "INSERT INTO users (username, password, admin) VALUES (%L, %L, %L);",
+          account.username,
+          account.password,
+          account.admin
+        )
+      );
+    }
+
     const salt = bcrypt.genSaltSync(envConfig.saltRounds);
     starterAdmin.password = bcrypt.hashSync(starterAdmin.password, salt);
 
@@ -42,11 +68,7 @@ const initDatabase = async () => {
 
     const insertQueries = [
       "INSERT INTO posiciones (name) VALUES ('delantero'), ('centrocampista'), ('defensa'), ('portero');",
-      pgFormat(
-        "INSERT INTO users (username, password, admin) VALUES (%L, %L, true);",
-        starterAdmin.username,
-        starterAdmin.password
-      ),
+      ...accountCreationQueries,
     ];
 
     const newTableQueries = [
