@@ -4,8 +4,18 @@ const { getTeams, addTeam } = getDBQueries();
 import asyncLoader from "../middleware/asyncMiddleware.js";
 
 const obtenerEquipos = async (req, res) => {
-  const equipos = await getTeams();
-  res.json(equipos);
+  const result = await getTeams();
+  if (result instanceof Error) {
+    res.status(500).json({ error: "Server error when fetching teams" });
+    return;
+  }
+
+  const equipos = result.map((equipo) => ({
+    id: equipo.id,
+    name: equipo.name,
+  }));
+
+  res.status(200).json(equipos);
 };
 
 const agregarEquipo = async (req, res) => {

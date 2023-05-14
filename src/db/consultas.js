@@ -120,7 +120,15 @@ const initDatabase = async () => {
 let pool;
 
 const getTeams = async () => {
-  //...
+  try {
+    const query = pgFormat("SELECT * FROM %s", tabNames.equipos);
+    const result = await pool.query(query);
+
+    return result.rows;
+  } catch (err) {
+    console.error(err);
+    return new Error("Failed to get teams");
+  }
 };
 
 const getPlayers = async (teamID) => {
@@ -133,6 +141,30 @@ const addTeam = async (equipo) => {
 
 const addPlayer = async ({ jugador, teamID }) => {
   //...
+};
+
+const getUserData = async (username) => {
+  try {
+    const query = pgFormat(
+      "SELECT password FROM users WHERE username = %L;",
+      username
+    );
+
+    const result = await pool.query(query);
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    const user = result.rows[0];
+
+    return {
+      password: user.password,
+      admin: user.admin,
+    };
+  } catch (err) {
+    console.error(err);
+    return new Error(`Failed to get user data for ${username}`);
+  }
 };
 
 let didInit = false;
@@ -148,5 +180,6 @@ export default () => {
     getPlayers,
     addTeam,
     addPlayer,
+    getUserData,
   };
 };

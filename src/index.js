@@ -13,6 +13,11 @@ const { obtenerJugadores, registrarJugador } = jugadoresRoutes;
 import equiposRoutes from "./controllers/equipos.js";
 const { obtenerEquipos, agregarEquipo } = equiposRoutes;
 
+import loginRoutes from "./controllers/login.js";
+const { loginUser } = loginRoutes;
+
+app.post("/login", loginUser);
+
 app.get("/equipos", obtenerEquipos);
 app.post("/equipos", agregarEquipo);
 
