@@ -7,6 +7,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+import validators from "./middleware/validators/routes.js";
+
 import jugadoresRoutes from "./controllers/jugadores.js";
 const { obtenerJugadores, registrarJugador } = jugadoresRoutes;
 
@@ -16,7 +18,7 @@ const { obtenerEquipos, agregarEquipo } = equiposRoutes;
 import loginRoutes from "./controllers/login.js";
 const { loginUser } = loginRoutes;
 
-app.post("/login", loginUser);
+app.post("/login", validators.postLogin, loginUser);
 
 app.get("/equipos", obtenerEquipos);
 app.post("/equipos", agregarEquipo);
