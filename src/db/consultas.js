@@ -19,11 +19,6 @@ const rootPool = new Pool({
 });
 
 const initDatabase = async () => {
-  const starterAdmin = {
-    username: "admin",
-    password: "1234",
-  };
-
   const testAccounts = [
     {
       username: "admin",
@@ -41,6 +36,9 @@ const initDatabase = async () => {
     const accountCreationQueries = [];
 
     for (const account of testAccounts) {
+      const salt = bcrypt.genSaltSync(envConfig.saltRounds);
+      account.password = bcrypt.hashSync(account.password, salt);
+
       accountCreationQueries.push(
         pgFormat(
           "INSERT INTO users (username, password, admin) VALUES (%L, %L, %L);",
@@ -50,9 +48,6 @@ const initDatabase = async () => {
         )
       );
     }
-
-    const salt = bcrypt.genSaltSync(envConfig.saltRounds);
-    starterAdmin.password = bcrypt.hashSync(starterAdmin.password, salt);
 
     const fullDeleteQueries = [
       pgFormat("DROP DATABASE IF EXISTS %s", dbConfig.database),
