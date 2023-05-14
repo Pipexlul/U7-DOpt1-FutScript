@@ -8,7 +8,12 @@ const postEquipos = ({ checkAdmin = false }) => [
   validateTeamBody,
 ];
 
+const postJugadores = ({ checkAdmin = false }) => [
+  validateAuth({ checkAdmin }),
+];
+
 export default {
   postLogin,
   postEquipos,
+  postJugadores,
 };

@@ -28,6 +28,10 @@ app.post(
 );
 
 app.get("/equipos/:teamID/jugadores", obtenerJugadores);
-app.post("/equipos/:teamID/jugadores", registrarJugador);
+app.post(
+  "/equipos/:teamID/jugadores",
+  validators.postJugadores({ checkAdmin: true }),
+  registrarJugador
+);
 
 app.listen(3000, console.log("SERVER ON"));
