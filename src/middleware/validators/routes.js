@@ -15,9 +15,12 @@ const postJugadores = ({ checkAdmin = false }) => [
 
 const getTeam = [validateTeamId];
 
+const getJugadores = [validateTeamId];
+
 export default {
   postLogin,
   postEquipos,
   postJugadores,
   getTeam,
+  getJugadores,
 };

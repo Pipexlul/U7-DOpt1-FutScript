@@ -5,8 +5,26 @@ import asyncLoader from "../middleware/asyncMiddleware.js";
 
 const obtenerJugadores = async (req, res) => {
   const { teamID } = req.params;
-  const jugadores = await getPlayers(teamID);
-  res.json(jugadores);
+  const result = await getPlayers(teamID);
+
+  if (result === null) {
+    res.status(404).json({ error: `Equipo de id ${teamID} no encontrado` });
+    return;
+  }
+
+  if (result instanceof Error) {
+    res
+      .status(500)
+      .json({ error: `Server error when fetching players of team ${teamID}` });
+    return;
+  }
+
+  const players = result.map((player) => ({
+    name: player.player_name,
+    posicion: player.position_name,
+  }));
+
+  res.status(200).json(players);
 };
 
 const registrarJugador = async (req, res) => {

@@ -169,7 +169,25 @@ const getTeam = async (teamID) => {
 };
 
 const getPlayers = async (teamID) => {
-  //...
+  try {
+    const teamQuery = await getTeam(teamID);
+    if (teamQuery === null) {
+      return null;
+    }
+
+    const query = pgFormat(
+      "SELECT j.name AS player_name, p.name AS position_name FROM %s AS j INNER JOIN %s AS p ON j.position = p.id WHERE j.id_equipo = %s;",
+      tabNames.jugadores,
+      tabNames.posiciones,
+      teamID
+    );
+
+    const result = await pool.query(query);
+    return result.rows;
+  } catch (err) {
+    console.error(err);
+    return new Error(`Failed to get players for team ${teamID}`);
+  }
 };
 
 const addTeam = async (equipo) => {

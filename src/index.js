@@ -29,7 +29,11 @@ app.post(
 
 app.get("/equipos/:teamID", validators.getTeam, obtenerEquipo);
 
-app.get("/equipos/:teamID/jugadores", obtenerJugadores);
+app.get(
+  "/equipos/:teamID/jugadores",
+  validators.getJugadores,
+  obtenerJugadores
+);
 app.post(
   "/equipos/:teamID/jugadores",
   validators.postJugadores({ checkAdmin: true }),
