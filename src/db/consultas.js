@@ -74,7 +74,7 @@ const initDatabase = async () => {
     ];
 
     const cleanTableQueries = [
-      "TRUNCATE equipos, posiciones, jugadores RESTART IDENTITY CASCADE;",
+      "TRUNCATE users, equipos, posiciones, jugadores RESTART IDENTITY CASCADE;",
     ];
 
     const checkDatabaseQuery = pgFormat(
@@ -148,6 +148,26 @@ const getTeams = async () => {
   }
 };
 
+const getTeam = async (teamID) => {
+  try {
+    const query = pgFormat(
+      "SELECT * FROM %s WHERE id = %s",
+      tabNames.equipos,
+      teamID
+    );
+    const result = await pool.query(query);
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    return result.rows[0];
+  } catch (err) {
+    console.error(err);
+    throw new Error(`Failed to get team ${teamID}`);
+  }
+};
+
 const getPlayers = async (teamID) => {
   //...
 };
@@ -207,6 +227,7 @@ export default () => {
 
   return {
     getTeams,
+    getTeam,
     getPlayers,
     addTeam,
     addPlayer,

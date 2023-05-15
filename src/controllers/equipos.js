@@ -1,5 +1,5 @@
 import getDBQueries from "../db/consultas.js";
-const { getTeams, addTeam } = getDBQueries();
+const { getTeams, getTeam, addTeam } = getDBQueries();
 
 import asyncLoader from "../middleware/asyncMiddleware.js";
 
@@ -16,6 +16,23 @@ const obtenerEquipos = async (req, res) => {
   }));
 
   res.status(200).json(equipos);
+};
+
+const obtenerEquipo = async (req, res) => {
+  const { teamID } = req.params;
+  const result = await getTeam(teamID);
+
+  if (result === null) {
+    res.status(404).json({ error: "Team not found" });
+    return;
+  }
+
+  if (result instanceof Error) {
+    res.status(500).json({ error: "Server error when fetching team" });
+    return;
+  }
+
+  res.status(200).json(result);
 };
 
 const agregarEquipo = async (req, res) => {
@@ -35,5 +52,6 @@ const agregarEquipo = async (req, res) => {
 
 export default {
   obtenerEquipos: asyncLoader(obtenerEquipos),
+  obtenerEquipo: asyncLoader(obtenerEquipo),
   agregarEquipo: asyncLoader(agregarEquipo),
 };
