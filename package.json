@@ -10,9 +10,9 @@
     "watch": "npx nodemon ./src/index.js",
     "watch:skip": "npx nodemon ./src/index.js -- --skip-recreate",
     "watch:fullDel": "npx nodemon ./src/index.js -- --full-delete",
-    "dev": "npx nodemon ./src/index.js -- --full-delete",
+    "dev": "npm run watch:fullDel",
     "genSecret": "node ./scripts/genJWTSecret.js",
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest --forceExit"
+    "test": "cross-env NODE_ENV=development NODE_OPTIONS=--experimental-vm-modules npx jest --forceExit"
   },
   "author": {
     "name": "Felipe Guajardo",
