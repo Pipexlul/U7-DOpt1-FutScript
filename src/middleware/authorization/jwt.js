@@ -8,7 +8,7 @@ const validateAuth =
   (req, res, next) => {
     const authHeader = req.get("Authorization");
     if (!authHeader) {
-      res.status(401).json({ error: "No se encontró token de autenticación" });
+      res.status(400).json({ error: "No se encontró token de autenticación" });
       return;
     }
 
@@ -39,7 +39,7 @@ const validateAuth =
         return;
       }
 
-      res.status(401).json({ error: "El token no es válido" });
+      res.status(400).json({ error: "El token no es válido" });
       return;
     }
   };
