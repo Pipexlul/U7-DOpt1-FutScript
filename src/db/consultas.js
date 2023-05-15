@@ -82,6 +82,7 @@ const initDatabase = async () => {
       dbConfig.database
     );
 
+    let firstCreate = false;
     const result = await rootPool.query(checkDatabaseQuery);
     if (result.rows.length === 0) {
       const createDatabaseQuery = pgFormat(
@@ -100,6 +101,7 @@ const initDatabase = async () => {
         await pool.query(query);
       }
 
+      firstCreate = true;
       console.log("Created database and tables");
     } else {
       pool = new Pool({
@@ -118,7 +120,8 @@ const initDatabase = async () => {
       }
     }
 
-    const shouldInsertStarterData = !options.skip || options.fullDelete;
+    const shouldInsertStarterData =
+      !options.skip || options.fullDelete || firstCreate;
 
     if (shouldInsertStarterData) {
       for (const query of insertQueries) {
