@@ -2,8 +2,9 @@ import express from "express";
 
 import cors from "cors";
 
-const app = express();
+import getDbQueries, { initDatabase } from "./db/consultas.js";
 
+const app = express();
 app.use(cors());
 app.use(express.json());
 
@@ -40,6 +41,8 @@ app.post(
   registrarJugador
 );
 
-app.listen(3000, console.log("SERVER ON"));
+initDatabase().then(() => {
+  app.listen(3000, console.log("SERVER ON"));
+});
 
-export default app;
+export { app, initDatabase, getDbQueries };

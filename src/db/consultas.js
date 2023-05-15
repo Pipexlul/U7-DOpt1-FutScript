@@ -255,20 +255,13 @@ const getUserData = async (username) => {
   }
 };
 
-let didInit = false;
+export default () => ({
+  getTeams,
+  getTeam,
+  getPlayers,
+  addTeam,
+  addPlayer,
+  getUserData,
+});
 
-export default () => {
-  if (!didInit) {
-    initDatabase();
-    didInit = true;
-  }
-
-  return {
-    getTeams,
-    getTeam,
-    getPlayers,
-    addTeam,
-    addPlayer,
-    getUserData,
-  };
-};
+export { initDatabase };
