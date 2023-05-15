@@ -13,7 +13,7 @@ import jugadoresRoutes from "./controllers/jugadores.js";
 const { obtenerJugadores, registrarJugador } = jugadoresRoutes;
 
 import equiposRoutes from "./controllers/equipos.js";
-const { obtenerEquipos, agregarEquipo } = equiposRoutes;
+const { obtenerEquipos, obtenerEquipo, agregarEquipo } = equiposRoutes;
 
 import loginRoutes from "./controllers/login.js";
 const { loginUser } = loginRoutes;
@@ -26,6 +26,8 @@ app.post(
   validators.postEquipos({ checkAdmin: true }),
   agregarEquipo
 );
+
+app.get("/equipos/:teamID", validators.getTeam, obtenerEquipo);
 
 app.get("/equipos/:teamID/jugadores", obtenerJugadores);
 app.post(
