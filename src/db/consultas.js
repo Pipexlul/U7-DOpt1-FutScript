@@ -208,7 +208,27 @@ const addTeam = async (equipo) => {
 };
 
 const addPlayer = async ({ jugador, teamID }) => {
-  //...
+  try {
+    const { name: player_name, position } = jugador;
+
+    const teamQuery = await getTeam(teamID);
+    if (teamQuery === null) {
+      return null;
+    }
+
+    const query = pgFormat(
+      "INSERT INTO %s (id_equipo, name, position) VALUES (%s, %L, %s);",
+      tabNames.jugadores,
+      teamID,
+      player_name,
+      position
+    );
+
+    await pool.query(query);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 };
 
 const getUserData = async (username) => {
