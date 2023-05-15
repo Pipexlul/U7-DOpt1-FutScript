@@ -41,8 +41,12 @@ app.post(
   registrarJugador
 );
 
-initDatabase().then(() => {
+if (process.env.NODE_ENV !== "development") {
+  initDatabase().then(() => {
+    app.listen(3000, console.log("SERVER ON"));
+  });
+} else {
   app.listen(3000, console.log("SERVER ON"));
-});
+}
 
 export { app, initDatabase, getDbQueries };
