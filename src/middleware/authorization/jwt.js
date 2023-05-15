@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-const { verify } = jwt;
+const { verify, TokenExpiredError } = jwt;
 
 import { envConfig } from "../../utils/envUtils.js";
 
@@ -31,6 +31,14 @@ const validateAuth =
 
       next();
     } catch (err) {
+      if (err instanceof TokenExpiredError) {
+        res.status(401).json({
+          error: "El token ha expirado",
+        });
+
+        return;
+      }
+
       res.status(401).json({ error: "El token no es válido" });
       return;
     }
